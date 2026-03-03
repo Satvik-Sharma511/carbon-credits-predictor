@@ -43,6 +43,7 @@ def get_irradiance(lat, lon):
     except:
         return 5.25
 
+
 @app.post("/api/calculate")
 async def calculate_credits(data: SolarRequest):
     irradiance = get_irradiance(data.lat, data.lon)
