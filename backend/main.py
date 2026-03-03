@@ -48,6 +48,11 @@ def get_irradiance(lat, lon):
 async def calculate_credits(data: SolarRequest):
     irradiance = get_irradiance(data.lat, data.lon)
 
+    # 🔥 FIX HERE
+    efficiency = data.eff
+    if efficiency > 1:
+        efficiency = efficiency / 100
+
     if model:
         features = pd.DataFrame([{
             'Latitude': data.lat,
@@ -64,7 +69,7 @@ async def calculate_credits(data: SolarRequest):
     else:
         z_factor = 0.82
 
-    daily_kwh = irradiance * data.area * data.eff * 0.75
+    daily_kwh = irradiance * data.area * efficiency * 0.75
     total_kwh = daily_kwh * data.days
 
     co2_avoided_kg = total_kwh * z_factor
