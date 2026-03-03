@@ -6,12 +6,13 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+# 1. INITIALIZE THE APP FIRST
 # ----------------------------
 # FastAPI App Setup
 # ----------------------------
 app = FastAPI(title="Carbon Credits Predictor")
 
-# Enable CORS for any frontend
+# 2. ADD MIDDLEWARE
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -19,6 +20,14 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+# 3. DEFINE YOUR ROUTES
+# ----------------------------
+# Health Check Endpoint
+# ----------------------------
+@app.head("/")
+@app.get("/")
+async def root():
+    return {"message": "Carbon Credits Predictor API is running smoothly!"}
 # ----------------------------
 # Request Model
 # ----------------------------
