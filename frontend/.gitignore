@@ -28,3 +28,4 @@ __pycache__/
 *.pkl
 node_modules/
 .env
+node_modules
