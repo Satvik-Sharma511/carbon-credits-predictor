@@ -4,6 +4,7 @@ import requests
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+import os
 
 app = FastAPI()
 
@@ -23,12 +24,19 @@ class SolarRequest(BaseModel):
     days: int
 
 # Load the ML Model
+# Get absolute path relative to this file
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # folder of main.py
+MODEL_PATH = os.path.join(BASE_DIR, "model.pkl")       # if model.pkl is in same folder as main.py
+# If model.pkl is in backend folder along with main.py, use:
+# MODEL_PATH = os.path.join(BASE_DIR, "backend", "model.pkl")
+
 try:
-    with open("backend/model.pkl", "rb") as f:
+    with open(MODEL_PATH, "rb") as f:
         model = pickle.load(f)
 except Exception as e:
     print(f"Model Error: {e}")
     model = None
+
 
 def get_irradiance(lat, lon):
     try:
